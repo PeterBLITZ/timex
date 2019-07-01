@@ -5,7 +5,8 @@ const REFRESH_INTERVAL = 1000;
 class App extends React.Component {
   state = {
     activeHostname: "",
-    timestamp: null
+    timestamp: null,
+    timer: 0
   };
 
   componentDidMount() {
@@ -22,18 +23,35 @@ class App extends React.Component {
     try {
       const { activeHostname } = await this._get("activeHostname");
       const { timestamp } = await this._get("timestamp");
-      this.setState({ activeHostname, timestamp });
+
+      const activeHostnameData = await this._get(activeHostname);
+
+      if (activeHostnameData[activeHostname]) {
+        const { time } = activeHostnameData[activeHostname];
+        const timer = time + this._timestampToMilliseconds(timestamp);
+
+        this.setState({ activeHostname, timestamp, timer });
+      } else {
+        this.setState({ activeHostname, timestamp });
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  _timestampToMilliseconds = timestamp =>
+    timestamp ? Date.now() - timestamp : 0;
+
   render() {
-    const time = this.state.timestamp ? Date.now() - this.state.timestamp : 0;
+    const { timer, timestamp, activeHostname } = this.state;
+
+    // use timestamp on first hostname load
+    const renderMilliseconds = timer ? timer : this._timestampToMilliseconds(timestamp)
+
     return (
       <div>
-        <p>{this.state.activeHostname}</p>
-        <p>{time}</p>
+        <p>{activeHostname}</p>
+        <p>{renderMilliseconds}</p>
       </div>
     );
   }
