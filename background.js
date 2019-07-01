@@ -49,7 +49,8 @@ class Timex {
 
 // Calculate time
 class HostnameTime {
-  constructor() {
+  constructor(storage) {
+    this.storage = storage;
     this.activeHostname = null;
     this.timestamp = null;
   }
@@ -70,11 +71,11 @@ class HostnameTime {
     const prevMilliseconds = Date.now() - this.timestamp;
     const prevHostname = this.activeHostname;
 
-    console.log("prev time", prevMilliseconds, prevHostname);
+    this.storage.commitTime(prevMilliseconds, prevHostname);
   }
 
   _updateActive() {
-    console.log("activeHostname:", this.activeHostname, "timestamp:", this.timestamp);
+    this.storage.updateActive(this.activeHostname, this.timestamp);
   }
 
   stopCount() {
@@ -105,7 +106,40 @@ class HostnameTime {
   }
 }
 
-const hostnameTime = new HostnameTime();
+class Storage {
+  _set(keys) {
+    return browser.storage.local.set(keys);
+  }
+
+  _get(keys) {
+    return browser.storage.local.get(keys);
+  }
+
+  async commitTime(milliseconds, hostname) {
+    let time = 0;
+    try {
+      const data = await this._get(hostname);
+      if (data[hostname] && data[hostname].time) {
+        time = data[hostname].time;
+      }
+      const updatedHostNameData = { [hostname]: { time: time + milliseconds } };
+      await this._set(updatedHostNameData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async updateActive(activeHostname, timestamp) {
+    try {
+      await this._set({ activeHostname, timestamp });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+const storage = new Storage();
+const hostnameTime = new HostnameTime(storage);
 const timex = new Timex(hostnameTime);
 
 // Add listeners
