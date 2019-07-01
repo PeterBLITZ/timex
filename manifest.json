@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Timex",
+  "version": "1.0",
+  "description": "Simple Firefox Extension to track time spent on the page.",
+  "icons": {
+    "48": "icons/clock.svg",
+    "96": "icons/clock.svg"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
