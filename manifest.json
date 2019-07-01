@@ -11,5 +11,10 @@
     "scripts": [
       "background.js"
     ]
-  }
+  },
+  "permissions": [
+    "<all_urls>",
+    "tabs",
+    "activeTab"
+  ]
 }
