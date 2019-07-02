@@ -1,5 +1,8 @@
 import React from "react";
 
+import Loader from "./components/Loader";
+import Main from "./components/Main";
+
 const REFRESH_INTERVAL = 1000;
 
 class App extends React.Component {
@@ -46,14 +49,14 @@ class App extends React.Component {
     const { timer, timestamp, activeHostname } = this.state;
 
     // use timestamp on first hostname load
-    const renderMilliseconds = timer ? timer : this._timestampToMilliseconds(timestamp)
+    const milliseconds = timer
+      ? timer
+      : this._timestampToMilliseconds(timestamp);
 
-    return (
-      <div>
-        <p>{activeHostname}</p>
-        <p>{renderMilliseconds}</p>
-      </div>
-    );
+    if (milliseconds === 0) {
+      return <Loader />;
+    }
+    return <Main hostname={activeHostname} milliseconds={milliseconds} />;
   }
 }
 
