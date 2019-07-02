@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { humanizeDuration } from "../utils/duration";
+
 class Main extends React.PureComponent {
   render() {
     const { hostname, milliseconds } = this.props;
+    const duration = humanizeDuration(milliseconds);
+
     return (
       <div>
-        <p>{milliseconds}</p>
-        <p>{hostname}</p>
+        <div>{duration}</div>
+        <div>{hostname}</div>
       </div>
     );
   }
