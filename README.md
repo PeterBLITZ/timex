@@ -35,6 +35,10 @@ then
 
 **npm** - 6.9.0
 
+## Screenshots
+
+![Firefox Extension](/screenshots/firefox.png "Firefox Extension")
+
 ## Troubleshooting
 
 If you see something like this:
