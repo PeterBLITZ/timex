@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { humanizeDuration } from "../utils/duration";
+import Info from "./Info";
 
 class Main extends React.PureComponent {
   render() {
@@ -9,9 +10,9 @@ class Main extends React.PureComponent {
     const duration = humanizeDuration(milliseconds);
 
     return (
-      <div>
+      <div className="main">
         <div>{duration}</div>
-        <div>{hostname}</div>
+        <Info hostname={hostname} />
       </div>
     );
   }
