@@ -1,0 +1,23 @@
+{
+  "name": "timex",
+  "version": "1.0.0",
+  "description": "Simple Firefox Extension to track time spent on the page.",
+  "scripts": {
+    "start": "npm run build && web-ext run",
+    "build": "npm run build:popup",
+    "postinstall": "npm run install:popup && npm run build",
+    "install:popup": "npm install --prefix popup",
+    "build:popup": "npm run build --prefix popup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterBLITZ/timex.git"
+  },
+  "author": "PeterBLITZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PeterBLITZ/timex/issues"
+  },
+  "homepage": "https://github.com/PeterBLITZ/timex#readme"
+}
